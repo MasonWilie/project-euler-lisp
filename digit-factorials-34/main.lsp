@@ -4,7 +4,7 @@
       1
       (* n (factorial (- n 1)))))
 
-(defun factoral-sum (numbers)
+(defun factorial-sum (numbers)
   "Calculate the sum of the factoral of multiple numbers"
   (reduce #'+ (mapcar #'factorial numbers)))
 
@@ -13,9 +13,16 @@
   (if (not (zerop n))
       (cons (mod n 10) (digits-list (floor (/ n 10))))))
 
-(defun curious-factorial-p (n)
-  "Checks if the sum of the factoral of the digits is equal to the number"
-  (eq n (factoral-sum (digits-list n))))
+(defvar *max-possible* (* 8 (factorial 9)))
+
+(defun sum-all-curious-factorials ()
+  "Find the sum of all curious factorials"
+  (do* ((n 3 (+ n 1))
+	(digits '(3) (digits-list n))
+	(f-sum 6 (factorial-sum digits))
+	(sum 0 (+ sum (if (eq n f-sum) n 0))))
+       ((> f-sum *max-possible*) sum)))
 
 
-(format t "~S~%" (curious-factorial-p 14))
+
+(format t "~S~%" (sum-all-curious-factorials))
