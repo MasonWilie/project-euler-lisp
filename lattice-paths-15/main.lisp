@@ -61,3 +61,23 @@
 (graph-to-dot-file *grid-graph* "output.dot")
 ;; (format t "Number of paths: ~S~%" (find-num-paths *grid-graph* '(0 0) '(2 2)))
 
+
+;; Analytical solution for this problem
+;;
+;; In an N x M matrix going from the top left corner to the bottom right corner
+;; requires you to make N + M moves (right N times, down M times). This can be
+;; framed as a combinatorics problem, where you are choosing N + M different moves
+;; out of a total set of k moves.
+
+(defun factorial (n)
+  "Calculates n!"
+  (reduce #'*
+    (loop for i from 1 to n collect i)))
+
+(defun lattice-paths-analytical (n)
+  "Calculates the number of paths analytically"
+  (/
+    (factorial (* n 2))
+    (* (factorial n) (factorial n))))
+
+(format t "Factorial: ~S~%" (lattice-paths-analytical 20))
